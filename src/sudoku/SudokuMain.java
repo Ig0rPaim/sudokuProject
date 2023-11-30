@@ -5,6 +5,7 @@ import java.awt.Container;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
@@ -14,19 +15,20 @@ public class SudokuMain extends JFrame {
 	   // private variables
 	   GameBoardPanel board = new GameBoardPanel();
 	   JButton btnNewGame = new JButton("New Game");
-
+	   Menu menu = new Menu("teste", board);
+	   private JLabel cont = new JLabel("Contagem");
+	   JMenuBar menuBar = new JMenuBar();
+	   private static SudokuMain instance;
 	   // Constructor
-	   public SudokuMain() {
+	   private SudokuMain() {
 		   
-		   Menu menu = new Menu(board);
-		   JMenuBar menuBar = new JMenuBar();
-		   menuBar.add(menu);
+		   
+		   
 		   setJMenuBar(menuBar);
-		      
-		      
-	      Container cp = getContentPane();
-	      cp.setLayout(new BorderLayout());
-	      
+		   menuBar.add(menu);   
+		   menuBar.add(cont);
+		   Container cp = getContentPane();
+	        cp.setLayout(new BorderLayout());
 	      cp.add(board, BorderLayout.CENTER);
 	      
 	      // Add a button to the south to re-start the game via board.newGame()
@@ -40,11 +42,26 @@ public class SudokuMain extends JFrame {
 	      setTitle("Sudoku");
 	      setVisible(true);
 	   }
+	   
+	   public static SudokuMain getInstance() {
+	       if (instance == null) {
+	           instance = new SudokuMain();
+	       }
+	       return instance;
+	   }
+
+	   
+	   public void reinitGame() {
+		    SwingUtilities.invokeLater(() -> {
+		        cont.setText("cont ++");
+		    });
+		}
+
 
 	   /** The entry main() entry method */
 	   public static void main(String[] args) {
 		   SwingUtilities.invokeLater(() -> {
-	            SudokuMain sudoku = new SudokuMain();
+	            SudokuMain sudoku = getInstance();
 	            sudoku.setSize(900, 900);
 	            sudoku.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				sudoku.setVisible(true);

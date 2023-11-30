@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 
 public class Menu extends JMenu{ 
 	GameBoardPanel boarder;
-	public Menu(GameBoardPanel boarder) {
-		super();
+	public Menu(String name, GameBoardPanel boarder) {
+		super(name);
 		this.boarder = boarder;
 		JMenuItem conferirJogoItem = new JMenuItem("Conferir Jogo");
         JMenuItem pausarItem = new JMenuItem("Pausar");
@@ -29,6 +29,13 @@ public class Menu extends JMenu{
 						null,
 						"Parabéns arrombadinho, você conseguiu",
 						"você é brabo",
+						JOptionPane.PLAIN_MESSAGE
+				);
+			}else {
+				JOptionPane.showMessageDialog(
+						null,
+						"burrão, hein! errou",
+						"se fudeu",
 						JOptionPane.PLAIN_MESSAGE
 				);
 			}

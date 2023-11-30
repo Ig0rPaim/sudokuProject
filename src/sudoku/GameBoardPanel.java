@@ -5,11 +5,12 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GameBoardPanel extends JPanel {
 	   private static final long serialVersionUID = 1L;  // to prevent serial warning
-
+//	   private static SudokuMain sudoku;
 	   // Define named constants for UI sizes
 	   public static final int CELL_SIZE = 60;   // Cell width/height in pixels
 	   public static final int BOARD_WIDTH  = CELL_SIZE * SudokuConstants.GRID_SIZE;
@@ -111,6 +112,24 @@ public class GameBoardPanel extends JPanel {
 	          * Check if the player has solved the puzzle after this move,
 	          *   by calling isSolved(). Put up a congratulation JOptionPane, if so.
 	          */
+	          if(isSolved()) {
+	        	  Object[] options = {"Sair do Jogo",
+					"Novo Jogo"};
+			 		int reply = JOptionPane.showOptionDialog(null,
+			 				"Você venceu!", "Jogo Finalizado",JOptionPane.YES_NO_OPTION,
+		                    JOptionPane.QUESTION_MESSAGE,
+		                    null,     //do not use a custom Icon
+		                    options,  //the titles of buttons
+		                    options[0]);
+			 		if (reply == JOptionPane.YES_OPTION)
+		                System.exit(0);
+		            //NO_OPTION
+		            if (reply == JOptionPane.NO_OPTION) {
+		            	newGame();
+		            	SudokuMain.getInstance().reinitGame();
+//		            	MusicPlayer.restartSong();
+		            }
+	          }
 	      }
 	   }
 	}
