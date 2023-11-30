@@ -5,6 +5,8 @@ import java.awt.Container;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.SwingUtilities;
 
 public class SudokuMain extends JFrame {
 	   private static final long serialVersionUID = 1L;  // to prevent serial warning
@@ -15,11 +17,18 @@ public class SudokuMain extends JFrame {
 
 	   // Constructor
 	   public SudokuMain() {
+		   
+		   Menu menu = new Menu(board);
+		   JMenuBar menuBar = new JMenuBar();
+		   menuBar.add(menu);
+		   setJMenuBar(menuBar);
+		      
+		      
 	      Container cp = getContentPane();
 	      cp.setLayout(new BorderLayout());
-
+	      
 	      cp.add(board, BorderLayout.CENTER);
-
+	      
 	      // Add a button to the south to re-start the game via board.newGame()
 	      // ......
 
@@ -34,10 +43,17 @@ public class SudokuMain extends JFrame {
 
 	   /** The entry main() entry method */
 	   public static void main(String[] args) {
-		   SudokuMain sudoku = new SudokuMain();
-		   sudoku.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		   sudoku.setSize(900, 900);
-		   sudoku.setVisible(true);
+		   SwingUtilities.invokeLater(() -> {
+	            SudokuMain sudoku = new SudokuMain();
+	            sudoku.setSize(900, 900);
+	            sudoku.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				sudoku.setVisible(true);
+	        });
+			/*
+			 * SudokuMain sudoku = new SudokuMain();
+			 * sudoku.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); sudoku.setSize(900,
+			 * 900); sudoku.setVisible(true);
+			 */
 	      // [TODO 1] Check "Swing program template" on how to run
 	      //  the constructor of "SudokuMain"
 	      // .........
