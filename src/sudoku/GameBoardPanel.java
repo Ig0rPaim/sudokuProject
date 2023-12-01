@@ -8,15 +8,22 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import ultils.PanelOptions;
+
 public class GameBoardPanel extends JPanel {
 	   private static final long serialVersionUID = 1L;  // to prevent serial warning
 //	   private static SudokuMain sudoku;
+	   private static GameBoardPanel instance;
 	   // Define named constants for UI sizes
 	   public static final int CELL_SIZE = 60;   // Cell width/height in pixels
 	   public static final int BOARD_WIDTH  = CELL_SIZE * SudokuConstants.GRID_SIZE;
 	   public static final int BOARD_HEIGHT = CELL_SIZE * SudokuConstants.GRID_SIZE;
 	                                             // Board width/height in pixels
-
+	   public static GameBoardPanel getInstance() {
+		   if(instance == null)
+			   instance = new GameBoardPanel();
+		   return instance;
+	   }
 	   // Define properties
 	   /** The game board composes of 9x9 Cells (customized JTextFields) */
 	   private Cell[][] cells = new Cell[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
@@ -24,7 +31,7 @@ public class GameBoardPanel extends JPanel {
 	   private Puzzle puzzle = new Puzzle();
 
 	   /** Constructor */
-	   public GameBoardPanel() {
+	   private GameBoardPanel() {
 	      super.setLayout(new GridLayout(SudokuConstants.GRID_SIZE, SudokuConstants.GRID_SIZE));  // JPanel
 
 	      // Allocate the 2D array of Cell, and added into JPanel.
@@ -104,6 +111,7 @@ public class GameBoardPanel extends JPanel {
 	             sourceCell.status = CellStatus.CORRECT_GUESS;
 	          } else {
 	             sourceCell.status = CellStatus.WRONG_GUESS;
+	             SudokuMain.getInstance().contErros();
 	          }
 	          sourceCell.paint();   // re-paint this cell based on its status
 
@@ -111,25 +119,13 @@ public class GameBoardPanel extends JPanel {
 	          * [TODO 6] (later)
 	          * Check if the player has solved the puzzle after this move,
 	          *   by calling isSolved(). Put up a congratulation JOptionPane, if so.
+	       
 	          */
+	          
 	          if(isSolved()) {
-	        	  Object[] options = {"Sair do Jogo",
-					"Novo Jogo"};
-			 		int reply = JOptionPane.showOptionDialog(null,
-			 				"Você venceu!", "Jogo Finalizado",JOptionPane.YES_NO_OPTION,
-		                    JOptionPane.QUESTION_MESSAGE,
-		                    null,     //do not use a custom Icon
-		                    options,  //the titles of buttons
-		                    options[0]);
-			 		if (reply == JOptionPane.YES_OPTION)
-		                System.exit(0);
-		            //NO_OPTION
-		            if (reply == JOptionPane.NO_OPTION) {
-		            	newGame();
-		            	SudokuMain.getInstance().reinitGame();
-//		            	MusicPlayer.restartSong();
-		            }
+	        	  PanelOptions.isSolvedGame("Sair", "reiniciar", "você ganhou", "parabens", GameBoardPanel.getInstance());
 	          }
+//	          PanelOptions.isSolvedGame("Sair do Jogo", "Reiniciar Jogo", GameBoardPanel.getInstance());
 	      }
 	   }
 	}

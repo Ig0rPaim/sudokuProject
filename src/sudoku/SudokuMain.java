@@ -7,26 +7,32 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import ultils.PanelOptions;
 
 public class SudokuMain extends JFrame {
 	   private static final long serialVersionUID = 1L;  // to prevent serial warning
 
 	   // private variables
-	   GameBoardPanel board = new GameBoardPanel();
+	   GameBoardPanel board = GameBoardPanel.getInstance();
 	   JButton btnNewGame = new JButton("New Game");
 	   Menu menu = new Menu("teste", board);
-	   private JLabel cont = new JLabel("Contagem");
+	   private JLabel cont = new JLabel("Contagem de jogos");
+	   private JLabel errosLabel = new JLabel("Erros 0/3");
 	   JMenuBar menuBar = new JMenuBar();
 	   private static SudokuMain instance;
+	   private int erros = 0;
 	   // Constructor
 	   private SudokuMain() {
 		   
 		   
 		   
 		   setJMenuBar(menuBar);
-		   menuBar.add(menu);   
-		   menuBar.add(cont);
+//		   menuBar.add(menu);   
+//		   menuBar.add(cont);
+		   menuBar.add(errosLabel);
 		   Container cp = getContentPane();
 	        cp.setLayout(new BorderLayout());
 	      cp.add(board, BorderLayout.CENTER);
@@ -53,24 +59,32 @@ public class SudokuMain extends JFrame {
 	   
 	   public void reinitGame() {
 		    SwingUtilities.invokeLater(() -> {
-		        cont.setText("cont ++");
+		        errosLabel.setText("Erros 0/3");
 		    });
 		}
+	   
+	   public void contErros() {
+		   if(erros >= 3) {
+			   PanelOptions.isSolvedGame("sair", "reiniciar","Que merda, hein", "errou de mais, parceiro", board);
+		   }
+		   erros += 1;
+		   errosLabel.setText("Erros " + Integer.toString(erros) + "/3");
+	   }
 
 
 	   /** The entry main() entry method */
 	   public static void main(String[] args) {
-		   SwingUtilities.invokeLater(() -> {
-	            SudokuMain sudoku = getInstance();
-	            sudoku.setSize(900, 900);
-	            sudoku.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				sudoku.setVisible(true);
-	        });
-			/*
-			 * SudokuMain sudoku = new SudokuMain();
-			 * sudoku.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); sudoku.setSize(900,
-			 * 900); sudoku.setVisible(true);
-			 */
+		   
+		   TelaInicial telaInicial = TelaInicial.getInstance();
+		   telaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		   telaInicial.setVisible(true);
+//		   SwingUtilities.invokeLater(() -> {
+//	            SudokuMain sudoku = getInstance();
+//	            sudoku.setSize(900, 900);
+//	            sudoku.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//				sudoku.setVisible(true);
+//	        });
+			
 	      // [TODO 1] Check "Swing program template" on how to run
 	      //  the constructor of "SudokuMain"
 	      // .........
