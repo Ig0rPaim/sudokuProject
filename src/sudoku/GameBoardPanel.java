@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import ultils.GamePhrases;
 import ultils.PanelOptions;
 
 public class GameBoardPanel extends JPanel {
@@ -72,6 +73,15 @@ public class GameBoardPanel extends JPanel {
 	         }
 	      }
 	   }
+	   
+	   public void clearGame() {
+		   for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+		         for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+		            if(cells[row][col].isEditable())
+		            	cells[row][col].setText("");
+		         }
+		      }
+	   }
 
 	   /**
 	    * Return true if the puzzle is solved
@@ -123,7 +133,12 @@ public class GameBoardPanel extends JPanel {
 	          */
 	          
 	          if(isSolved()) {
-	        	  PanelOptions.isSolvedGame("Sair", "reiniciar", "você ganhou", "parabens", GameBoardPanel.getInstance());
+	        	  PanelOptions.isSolvedGame(GamePhrases.SAIR,
+	        			  GamePhrases.NOVO_JOGO,
+	        			  GamePhrases.WINS_MESSAGE,
+	        			  GamePhrases.WINS_TITLE,
+	        			  GameBoardPanel.getInstance()
+        			  );
 	          }
 //	          PanelOptions.isSolvedGame("Sair do Jogo", "Reiniciar Jogo", GameBoardPanel.getInstance());
 	      }

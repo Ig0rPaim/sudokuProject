@@ -3,11 +3,14 @@ package sudoku;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import ultils.Levels;
 
 public class TelaInicial extends JFrame {
 
@@ -28,7 +31,12 @@ public class TelaInicial extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Criação da dropdown
-        String[] opcoes = {"Opção 1", "Opção 2", "Opção 3"};
+        String[] opcoes = {Levels.DIFFICULT, Levels.MEDIUM, Levels.EASY};
+//        HashMap<Levels, String> opcoes = new HashMap<>();
+//        opcoes.put(Levels.DIFFICULT, "Dificíl");
+//        opcoes.put(Levels.MEDIUM, "Intermediário");
+//        opcoes.put(Levels.EASY, "Fácil");
+//        String[] t = opcoes.values().toArray(new String[0]);
         dropdown = new JComboBox<>(opcoes);
 
         // Criação do botão
@@ -47,7 +55,7 @@ public class TelaInicial extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			SudokuMain s = SudokuMain.getInstance();
+			SudokuMain s = SudokuMain.getInstance((String)dropdown.getSelectedItem());
 			TelaInicial.getInstance().dispose();
 			
 //			SudokuMain sudoku = getInstance();

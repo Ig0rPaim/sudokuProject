@@ -21,7 +21,10 @@ public class PanelOptions {
 		                System.exit(0);
 		            //NO_OPTION
 		            if (reply == JOptionPane.NO_OPTION) {
-		            	board.newGame();
+		            	if(option2.equals(GamePhrases.REINICIAR))
+		            		board.clearGame();
+		            	else
+		            		board.newGame(); 
 		            	SudokuMain.getInstance().reinitGame();
 //		            	MusicPlayer.restartSong();
 		            }
