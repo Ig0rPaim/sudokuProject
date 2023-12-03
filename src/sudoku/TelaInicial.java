@@ -1,20 +1,22 @@
 package sudoku;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ultils.Levels;
 
 public class TelaInicial extends JFrame {
 
-    private JComboBox<String> dropdown;
+    private JComboBox<String> dropdownErros;
+    private JComboBox<String> dropdownCellsToGuess;
     private JButton btnIniciar;
     private static TelaInicial instance;
 
@@ -25,45 +27,51 @@ public class TelaInicial extends JFrame {
     }
     
     private TelaInicial() {
-        // Configurações básicas do JFrame
         setTitle("Tela Inicial");
-        setSize(400, 200);
+        setSize(600, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Criação da dropdown
-        String[] opcoes = {Levels.DIFFICULT, Levels.MEDIUM, Levels.EASY};
-//        HashMap<Levels, String> opcoes = new HashMap<>();
-//        opcoes.put(Levels.DIFFICULT, "Dificíl");
-//        opcoes.put(Levels.MEDIUM, "Intermediário");
-//        opcoes.put(Levels.EASY, "Fácil");
-//        String[] t = opcoes.values().toArray(new String[0]);
-        dropdown = new JComboBox<>(opcoes);
+        String[] opcoes = { Levels.DIFFICULT, Levels.MEDIUM, Levels.EASY };
+        dropdownErros = new JComboBox<>(opcoes);
+        dropdownCellsToGuess = new JComboBox<>(opcoes);
 
-        // Criação do botão
         btnIniciar = new JButton("Iniciar");
         btnIniciar.addActionListener(new iniciarEvent());
-        // Configuração do layout
-        JPanel panel = new JPanel();
-        panel.add(dropdown);
-        panel.add(btnIniciar);
 
-        // Adiciona o painel ao centro do JFrame
-        add(panel, BorderLayout.CENTER);
-    }
+        // JPanel para os rótulos
+        JPanel labelsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); 
+        labelsPanel.add(new JLabel("Quantidade de erros:"));
+        labelsPanel.add(new JLabel("Quantidade de pistas:"));
 
-	private class iniciarEvent implements ActionListener{
+        // JPanel para as dropdowns
+        JPanel dropdownsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); 
+        dropdownsPanel.add(dropdownErros);
+        dropdownsPanel.add(dropdownCellsToGuess);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(btnIniciar);
+
+        add(labelsPanel, BorderLayout.NORTH);
+        add(dropdownsPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }    
+    private class iniciarEvent implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			SudokuMain s = SudokuMain.getInstance((String)dropdown.getSelectedItem());
+			SudokuMain s = SudokuMain
+					.getInstance(
+							(String)dropdownErros
+							.getSelectedItem(),
+							(String) dropdownCellsToGuess
+							.getSelectedItem()
+							);
 			TelaInicial.getInstance().dispose();
 			
-//			SudokuMain sudoku = getInstance();
             s.setSize(900, 900);
             s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			s.setVisible(true);
 			
-//			s.setVisible(true);
 		}
     	
     }

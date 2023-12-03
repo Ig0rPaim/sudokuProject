@@ -2,7 +2,7 @@ package sudoku;
 
 import java.util.Random;
 
-import DAO.GamesPostgreSql;
+import DAO.DAOGamesPostgreSql;
 
 public class Puzzle {
 	   // All variables have package access
@@ -10,7 +10,7 @@ public class Puzzle {
 	   int[][] numbers = new int[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
 	   // The clues - isGiven (no need to guess) or need to guess
 	   boolean[][] isGiven = new boolean[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
-	   private GamesPostgreSql db = new GamesPostgreSql();
+	   private DAOGamesPostgreSql db = new DAOGamesPostgreSql();
 	   // Constructor
 	   public Puzzle() {
 	      super();
@@ -47,8 +47,8 @@ public class Puzzle {
 	      // Hardcoded for testing, only 2 cells of "8" is NOT GIVEN
 	      
 	      boolean[][] hardcodedIsGiven =
-	         {{true, true, true, true, true, false, true, true, true},
-	          {true, true, true, true, true, true, true, true, false},
+	         {{true, true, true, true, true, true, true, true, true},
+	          {true, true, true, true, true, true, true, true, true},
 	          {true, true, true, true, true, true, true, true, true},
 	          {true, true, true, true, true, true, true, true, true},
 	          {true, true, true, true, true, true, true, true, true},
@@ -74,6 +74,13 @@ public class Puzzle {
 			 * 		hardcodedIsGiven[col][row] = false;
 			 *  }
 			 */
+	      
+	        Random rd = new Random();
+			  for(int i = 0; i < cellsToGuess; i++) {
+			  		int col = rd.nextInt(9); 
+			  		int row = rd.nextInt(9); 
+			  		hardcodedIsGiven[col][row] = false;
+			   }
 
 	      // Copy from hardcodedIsGiven into array "isGiven"
 			/*

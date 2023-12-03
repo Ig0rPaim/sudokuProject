@@ -22,14 +22,15 @@ public class SudokuMain extends JFrame {
 	   Menu menu = new Menu("teste", board);
 	   private JLabel cont = new JLabel("Contagem de jogos");
 	   private int errosLevel = 3;
+	   private int cellsToGuess = 3;
 	   private JLabel errosLabel = new JLabel();
 	   JMenuBar menuBar = new JMenuBar();
 	   private static SudokuMain instance;
 	   private int erros = 0;
 	   
 	   // Constructor
-	   private SudokuMain(String level) {
-		   switch (level) {
+	   private SudokuMain(String levelErros, String levelCellsToGuess) {
+		   switch (levelErros) {
 		   case Levels.DIFFICULT:
 			   errosLevel = 3;
 			   break;
@@ -38,6 +39,18 @@ public class SudokuMain extends JFrame {
 			   break;
 		   case Levels.EASY:
 			   errosLevel = 9;
+			   break;
+		   }
+		   
+		   switch (levelCellsToGuess) {
+		   case Levels.DIFFICULT:
+			   cellsToGuess = 81 - 3;
+			   break;
+		   case Levels.MEDIUM:
+			   cellsToGuess = 81 - 6;
+			   break;
+		   case Levels.EASY:
+			   cellsToGuess = 81 - 9;
 			   break;
 		   }
 		   
@@ -54,7 +67,7 @@ public class SudokuMain extends JFrame {
 	      // ......
 
 	      // Initialize the game board to start the game
-	      board.newGame();
+	      board.newGame(cellsToGuess);
 
 	      pack();     // Pack the UI components, instead of using setSize()
 	      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // to handle window-closing
@@ -93,9 +106,9 @@ public class SudokuMain extends JFrame {
 	       return instance;
 	   }
 	   
-	   public static SudokuMain getInstance(String level) {
+	   public static SudokuMain getInstance(String levelErros, String levelCellsToGuess) {
 	       if (instance == null) {
-	           instance = new SudokuMain(level);
+	           instance = new SudokuMain(levelErros, levelCellsToGuess);
 	       }
 	       return instance;
 	   }
@@ -126,15 +139,5 @@ public class SudokuMain extends JFrame {
 		   TelaInicial telaInicial = TelaInicial.getInstance();
 		   telaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		   telaInicial.setVisible(true);
-//		   SwingUtilities.invokeLater(() -> {
-//	            SudokuMain sudoku = getInstance();
-//	            sudoku.setSize(900, 900);
-//	            sudoku.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//				sudoku.setVisible(true);
-//	        });
-			
-	      // [TODO 1] Check "Swing program template" on how to run
-	      //  the constructor of "SudokuMain"
-	      // .........
 	   }
 	}
