@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ultils.GamePhrases;
@@ -32,16 +31,39 @@ public class GameBoardPanel extends JPanel {
 	   private Puzzle puzzle = new Puzzle();
 
 	   /** Constructor */
-	   private GameBoardPanel() {
-	      super.setLayout(new GridLayout(SudokuConstants.GRID_SIZE, SudokuConstants.GRID_SIZE));  // JPanel
+//	   private GameBoardPanel() {
+//	      super.setLayout(new GridLayout(SudokuConstants.GRID_SIZE, SudokuConstants.GRID_SIZE));  // JPanel
+//
+//	      // Allocate the 2D array of Cell, and added into JPanel.
+//	      for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+//	         for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+//	            cells[row][col] = new Cell(row, col);
+//	            super.add(cells[row][col]);   // JPanel
+//	         }
+//	      }
+	   
+	   public GameBoardPanel() {
+		      super.setLayout(new GridLayout(SudokuConstants.GRID_SIZE, SudokuConstants.GRID_SIZE));  // JPanel  
 
-	      // Allocate the 2D array of Cell, and added into JPanel.
-	      for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
-	         for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-	            cells[row][col] = new Cell(row, col);
-	            super.add(cells[row][col]);   // JPanel
-	         }
-	      }
+		      for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+		         for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+		            cells[row][col] = new Cell(row, col);
+		            cells[row][col].setBorder(Edge.getStandardBorder());
+		            if(row == 2 || row == 5) {           
+		                cells[row][col].setBorder(Edge.getRowBorder());            
+		            }
+		            if(col == 3 || col == 6) {
+		            	if(row == 2 || row == 5) {
+		                    cells[row][col].setBorder(Edge.getCornerBorder());            
+		            	}else {
+		                    cells[row][col].setBorder(Edge.getColumnBorder());            
+		            	}
+		            }
+
+		            super.add(cells[row][col]);  
+		            // JPanel
+		         }
+		      }
 
 	   // [TODO 3]
 	      CellInputListener listener = new CellInputListener();
