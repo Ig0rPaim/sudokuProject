@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ultils.GamePhrases;
@@ -145,32 +146,37 @@ public class GameBoardPanel extends JPanel {
 	      public void actionPerformed(ActionEvent e) {
 	         // Get a reference of the JTextField that triggers this action event
 	         Cell sourceCell = (Cell)e.getSource();
-			 
-	         // Retrieve the int entered
-	         int numberIn = Integer.parseInt(sourceCell.getText());
-	         // For debugging
-	         System.out.println("You entered " + numberIn);
+			 if(!sourceCell.getText().matches("\\d+")) {
+				 Object[] options = {"Sair do jogo",
+							"continuar jogando"};
+					 		int reply = JOptionPane.showOptionDialog(null,
+					 				"Entrada inválida", "Só aceitamos numeros",JOptionPane.YES_NO_OPTION,
+				                    JOptionPane.QUESTION_MESSAGE,
+				                    null,     //aqui colocam-se os icones
+				                    options,  
+				                    options[0]);
+					 		if (reply == JOptionPane.YES_OPTION)
+				                System.exit(0);
+				            //NO_OPTION
+				            if (reply == JOptionPane.NO_OPTION) {
+				            	sourceCell.setText("");
+				            	JOptionPane.getRootFrame().dispose();
+				            	return;
+				            }
+			 }
+				 
 
-	         /*
-	          * [TODO 5] (later - after TODO 3 and 4)
-	          * Check the numberIn against sourceCell.number.
-	          * Update the cell status sourceCell.status,
-	          * and re-paint the cell via sourceCell.paint().
-	          */
+	         int numberIn = Integer.parseInt(sourceCell.getText());
+
+//	         System.out.println("You entered " + numberIn);
+
 	          if (numberIn == sourceCell.number) {
 	             sourceCell.status = CellStatus.CORRECT_GUESS;
 	          } else {
 	             sourceCell.status = CellStatus.WRONG_GUESS;
 	             SudokuMain.getInstance().contErros();
 	          }
-	          sourceCell.paint();   // re-paint this cell based on its status
-
-	         /*
-	          * [TODO 6] (later)
-	          * Check if the player has solved the puzzle after this move,
-	          *   by calling isSolved(). Put up a congratulation JOptionPane, if so.
-	       
-	          */
+	          sourceCell.paint();
 	          
 	          if(isSolved()) {
 	        	  PanelOptions.isSolvedGame(GamePhrases.SAIR,
@@ -180,7 +186,6 @@ public class GameBoardPanel extends JPanel {
 	        			  GameBoardPanel.getInstance()
         			  );
 	          }
-//	          PanelOptions.isSolvedGame("Sair do Jogo", "Reiniciar Jogo", GameBoardPanel.getInstance());
 	      }
 	   }
 	}

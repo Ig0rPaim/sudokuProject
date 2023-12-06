@@ -7,10 +7,17 @@ public class Timer extends Thread {
     private final JMenuItem timerMenuItem;
     private int seconds;
     private boolean isRunning;
+    private static Timer instance;
 
-    public Timer(JMenuItem timerMenuItem) {
+    private Timer(JMenuItem timerMenuItem) {
         this.timerMenuItem = timerMenuItem;
         this.isRunning = false;  // Inicializa como false
+    }
+    
+    public static Timer getInstance(JMenuItem timerMenuItem) {
+    	if(instance == null)
+    		instance = new Timer(timerMenuItem);
+    	return instance;
     }
 
     public void startTimer() {
@@ -18,9 +25,9 @@ public class Timer extends Thread {
         start();  // Inicia a thread
     }
     
-    public void restartTimer() {
-    	isRunning = true;
-    }
+//    public void restartTimer() {
+//    	isRunning = true;
+//    }
 
     @Override
     public void run() {
@@ -43,6 +50,7 @@ public class Timer extends Thread {
     }
 
     public void reset() {
+    	isRunning = true;
         seconds = 0;
         updateTimer();
     }
@@ -51,5 +59,6 @@ public class Timer extends Thread {
 	public void customStop() {
         isRunning = false;
 //    	stop();
+        interrupt();
     }
 }

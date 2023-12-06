@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -73,16 +75,26 @@ public class SudokuMain extends JFrame {
 	        cp.setLayout(new BorderLayout());
 	        cp.add(board, BorderLayout.CENTER);
 
-	        // Adiciona um botão ao sul para reiniciar o jogo através de board.newGame()
-	        // ......
-
-	        // Inicializa o tabuleiro do jogo para iniciar o jogo
+	        
 	        board.newGame(cellsToGuess);
 
-	        // Adiciona um item de menu para o cronômetro
 	        JMenuItem timerMenuItem = new JMenuItem("Tempo: 00:00");
-	        menuBar.add(timerMenuItem);
-	        timer = new Timer(timerMenuItem);
+	        
+	        Box verticalBox = Box.createVerticalBox();
+	        verticalBox.add(Box.createVerticalGlue());  // Espaço superior
+	        Box horizontalBox = Box.createHorizontalBox();
+	        horizontalBox.add(Box.createHorizontalGlue());  // Espaço à esquerda
+	        horizontalBox.add(timerMenuItem);
+	        horizontalBox.add(Box.createHorizontalGlue());  // Espaço à direita
+	        verticalBox.add(horizontalBox);
+	        verticalBox.add(Box.createVerticalGlue());  
+	        
+	        menuBar.add(verticalBox);
+	        
+//	        menuBar.add(timerMenuItem);
+	         
+	        
+	        timer = Timer.getInstance(timerMenuItem);
 	        timer.startTimer();	        
 	        
 	        JButton startButton = new JButton("Novo Jogo");
@@ -110,7 +122,7 @@ public class SudokuMain extends JFrame {
 	            int reply = JOptionPane.showOptionDialog(
 	                    null,
 	                    panel,
-	                    "Título",
+	                    "Escolha os filtros",
 	                    JOptionPane.YES_NO_OPTION,
 	                    JOptionPane.QUESTION_MESSAGE,
 	                    null,
@@ -151,24 +163,25 @@ public class SudokuMain extends JFrame {
 		                cellsToGuess = 81 - 50;
 		                break;
 		        }
+	                timer.reset();
 	                board.newGame(cellsToGuess);
 	            }
 	        });
 //	        stopButton.addActionListener(e -> timer.customStop());
 	        restartButton.addActionListener(e -> {
+	        	timer.reset();
 	        	erros = 0;
 	        	errosLabel.setText("Erros 0/" + errosLevel);
 	            board.clearGame();
 	        });
-	        
-	        // Inicializa o cronômetro
-	        
 
 	        pack();  // Empacota os componentes da interface do usuário
-	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Lidar com o fechamento da janela
+	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
 	        setTitle("Sudoku");
 	        setVisible(true);
 	    }
+	   
+	   
 	   
 	   private SudokuMain() {
 		   
