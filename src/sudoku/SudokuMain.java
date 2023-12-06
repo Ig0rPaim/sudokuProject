@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.GridLayout;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -37,7 +36,39 @@ public class SudokuMain extends JFrame {
 	   private int erros = 0;
 	   private Timer timer;
 	   
-
+	   public Timer getTimer() {
+		   return timer;
+	   }
+	   
+	   public void setCellsToGuess(int value) {
+		   cellsToGuess = value;
+	   }
+	   
+	   public int getCellsToGuess() {
+		   return cellsToGuess;
+	   }
+	   
+	   public void setErrosLabel(String value) {
+		   errosLabel.setText(value);
+	   }
+	   
+	   public int getErrosLevel() {
+		   return errosLevel;
+	   }
+	   
+	   public void setErrosLevel(int value) {
+		   errosLevel = value;
+	   }
+	   
+	   public int getErros() {
+		   return erros;
+	   }
+	   
+	   public void setErros(int value) {
+		   erros = value;
+	   }
+	   
+	   
 	   public SudokuMain(String levelErros, String levelCellsToGuess) {
 	        errosLabel = new JLabel("Erros 0/" + errosLevel);
 	        menuBar = new JMenuBar();
@@ -62,7 +93,7 @@ public class SudokuMain extends JFrame {
 	                cellsToGuess = 81 - 35;
 	                break;
 	            case Levels.EASY:
-	                cellsToGuess = 81 - 50;
+	                cellsToGuess = 81 - 79;
 	                break;
 	        }
 
@@ -223,7 +254,10 @@ public class SudokuMain extends JFrame {
 
 	   public void reinitGame() {
 		    SwingUtilities.invokeLater(() -> {
-		        errosLabel.setText("Erros 0/3");
+		    	timer.reset();
+	        	erros = 0;
+	        	errosLabel.setText("Erros 0/" + errosLevel);
+	            board.clearGame();
 		    });
 		}
 	   
