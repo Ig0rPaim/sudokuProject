@@ -11,6 +11,7 @@ public class Puzzle {
 	   // The clues - isGiven (no need to guess) or need to guess
 	   boolean[][] isGiven = new boolean[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
 	   private DAOGamesPostgreSql db = new DAOGamesPostgreSql();
+//	   private Games games = new Games();
 	   // Constructor
 	   public Puzzle() {
 	      super();
@@ -18,7 +19,7 @@ public class Puzzle {
 	   
 	   public void newPuzzle(int cellsToGuess) {
 		  
-	      int[][] hardcodedNumbers =
+	      int[][] hardcodedNumbers = //Games.getRandomGame(); // para pegar jogos aleatórios
 	         {{5, 3, 4, 6, 7, 8, 9, 1, 2},
 	          {6, 7, 2, 1, 9, 5, 3, 4, 8},
 	          {1, 9, 8, 3, 4, 2, 5, 6, 7},

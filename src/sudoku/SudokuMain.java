@@ -138,7 +138,7 @@ public class SudokuMain extends JFrame {
 	        menuBar.add(restartButton);
 
 	       
-	        startButton.addActionListener(e -> {
+	        startButton.addActionListener(e -> { //adicionar o PanelOptions no lugar 
 	        	Object[] options = {"Sair", "Novo Jogo"};
 
 	            // Criar um painel com dois JComboBox
