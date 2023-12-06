@@ -2,14 +2,19 @@ package sudoku;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import ultils.DropdownLevels;
 import ultils.GamePhrases;
 import ultils.Levels;
 import ultils.PanelOptions;
@@ -80,25 +85,80 @@ public class SudokuMain extends JFrame {
 	        timer = new Timer(timerMenuItem);
 	        timer.startTimer();	        
 	        
-	        JButton startButton = new JButton("Iniciar");
-	        JButton stopButton = new JButton("Parar");
+	        JButton startButton = new JButton("Novo Jogo");
+//	        JButton stopButton = new JButton("Parar");
 	        JButton restartButton = new JButton("Reiniciar");
 
 	        // Adiciona os botões ao menu
 	        menuBar.add(startButton);
-	        menuBar.add(stopButton);
+//	        menuBar.add(stopButton);
 	        menuBar.add(restartButton);
 
-	        // Adiciona ouvintes de ação aos botões
+	       
 	        startButton.addActionListener(e -> {
-	        	timer.restartTimer();
-	        	timer.run();
+	        	Object[] options = {"Sair", "Novo Jogo"};
+
+	            // Criar um painel com dois JComboBox
+	            JPanel panel = new JPanel(new GridLayout(2, 2));
+	            JComboBox<String> dropErros = DropdownLevels.getDropdownerros();
+	            JComboBox<String> dropCells = DropdownLevels.getDropdowncellstoguess();
+	            panel.add(new JLabel("Dropdown Erros:"));
+	            panel.add(dropErros);
+	            panel.add(new JLabel("Dropdown Células para Adivinhar:"));
+	            panel.add(dropCells);
+
+	            int reply = JOptionPane.showOptionDialog(
+	                    null,
+	                    panel,
+	                    "Título",
+	                    JOptionPane.YES_NO_OPTION,
+	                    JOptionPane.QUESTION_MESSAGE,
+	                    null,
+	                    options,
+	                    options[0]);
+
+	            if (reply == JOptionPane.YES_OPTION) {
+//	                System.exit(0);
+	            	JOptionPane.getRootFrame().dispose();
+	            }
+
+	            if (reply == JOptionPane.NO_OPTION) {
+	                String selectedErros = (String) dropErros.getSelectedItem();
+	                String selectedCells = (String) dropCells.getSelectedItem();
+	                
+	    	        switch (selectedErros) {
+		            case Levels.DIFFICULT:
+		                errosLevel = 3;
+		                break;
+		            case Levels.MEDIUM:
+		                errosLevel = 6;
+		                break;
+		            case Levels.EASY:
+		                errosLevel = 9;
+		                break;
+	    	        }
+	    	        erros = 0;
+	    	        errosLabel.setText("Erros 0/" + errosLevel);
+	    	        
+	                switch (selectedCells) {
+		            case Levels.DIFFICULT:
+		                cellsToGuess = 81 - 10;
+		                break;
+		            case Levels.MEDIUM:
+		                cellsToGuess = 81 - 35;
+		                break;
+		            case Levels.EASY:
+		                cellsToGuess = 81 - 50;
+		                break;
+		        }
+	                board.newGame(cellsToGuess);
+	            }
 	        });
-	        stopButton.addActionListener(e -> timer.customStop());
+//	        stopButton.addActionListener(e -> timer.customStop());
 	        restartButton.addActionListener(e -> {
-	            timer.customStop();
-	            timer.reset();
-	            timer.start();
+	        	erros = 0;
+	        	errosLabel.setText("Erros 0/" + errosLevel);
+	            board.clearGame();
 	        });
 	        
 	        // Inicializa o cronômetro

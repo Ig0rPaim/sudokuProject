@@ -99,8 +99,13 @@ public class GameBoardPanel extends JPanel {
 	   public void clearGame() {
 		   for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
 		         for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
-		            if(cells[row][col].isEditable())
-		            	cells[row][col].setText("");
+		        	 
+		        	 if(CellStatus.WRONG_GUESS.equals(cells[row][col].status) ||
+		        			 CellStatus.CORRECT_GUESS.equals(cells[row][col].status)
+		        			 ) {
+		        		 cells[row][col].status = CellStatus.TO_GUESS; 
+		        	 }
+		        	 cells[row][col].paint();
 		         }
 		      }
 	   }

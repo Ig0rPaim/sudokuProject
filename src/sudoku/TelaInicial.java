@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ultils.DropdownLevels;
 import ultils.Levels;
 
 public class TelaInicial extends JFrame {
@@ -38,9 +39,9 @@ public class TelaInicial extends JFrame {
         ImageIcon initialImage = new ImageIcon(getClass().getResource("/images/sudoku_image_2.png"));
         JLabel imageLabel = new JLabel(initialImage);
 
-        String[] opcoes = { Levels.DIFFICULT, Levels.MEDIUM, Levels.EASY };
-        dropdownErros = new JComboBox<>(opcoes);
-        dropdownCellsToGuess = new JComboBox<>(opcoes);
+//        String[] opcoes = { Levels.DIFFICULT, Levels.MEDIUM, Levels.EASY };
+        dropdownErros = DropdownLevels.getDropdownerros();//new JComboBox<>(opcoes);
+        dropdownCellsToGuess = DropdownLevels.getDropdowncellstoguess();//new JComboBox<>(opcoes);
 
         btnIniciar = new JButton("Iniciar");
         btnIniciar.addActionListener(new IniciarEvent());
